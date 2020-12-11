@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "0129d8a1-32b8-43c1-a9c8-39a6e5dfff76",
+		"name": "jsonplaceholder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Positive tests",
+			"item": [
+				{
+					"name": "Get all posts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f3b7f8be-96dd-4213-bd86-5df8c5aa1523",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 350ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(350);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}posts",
+							"host": [
+								"{{url}}posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5c40a879-837d-4af0-999e-f903771d670f",
+								"exec": [
+									"pm.test(\"User city is in valid list\", () => {\r",
+									"  pm.expect(pm.response.json().address.city)\r",
+									"    .to.be.oneOf([\"Gwenborough\", \"Wisokyburgh\", \"McKenziehaven\"]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Correct user returned\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Nathan@yesenia.net\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}users/3",
+							"host": [
+								"{{url}}users"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b359cade-a75e-40d4-ab0d-35c6136f73ba",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Check the active environment is 'jsonplaceholder'\", () => {\r",
+									"  pm.expect(pm.environment.name).to.eql(\"jsonplaceholder\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"2\",\r\n    \"title\": \"Test title\",\r\n    \"body\": \"btets body\",\r\n    \"id\": \"55\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}posts",
+							"host": [
+								"{{url}}posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c2005c6b-d1fa-4ce1-94b1-87a1130e57f7",
+								"exec": [
+									"pm.test(\"Check post has correct  title\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"My test title\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check title has correct lenght\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.have.lengthOf(13);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 2,\r\n    \"id\": 10,\r\n    \"title\": \"My test title\",\r\n    \"body\": \"quo et expedita modi cum officia vel magni\\ndoloribus qui repudiandae\\nvero nisi sit\\nquos veniam quod sed accusamus veritatis error\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}posts/100",
+							"host": [
+								"{{url}}posts"
+							],
+							"path": [
+								"100"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Negative test",
+			"item": [
+				{
+					"name": "Error updating unexisting post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a1e9abe0-7a4a-404d-b2fe-4595237d0caa",
+								"exec": [
+									"pm.test(\"Error readig unexisting id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"TypeError: Cannot read property 'id' of undefined\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 2,\r\n    \"id\": 10,\r\n    \"title\": \"My test title\",\r\n    \"body\": \"quo et expedita modi cum officia vel magni\\ndoloribus qui repudiandae\\nvero nisi sit\\nquos veniam quod sed accusamus veritatis error\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}posts/101",
+							"host": [
+								"{{url}}posts"
+							],
+							"path": [
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "404 Get unexisting post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2ef6446a-c9db-4f82-9964-adcc929d7f83",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}albums/111",
+							"host": [
+								"{{url}}albums"
+							],
+							"path": [
+								"111"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8c4bc29b-b654-4cff-82ec-bab564ea4bcb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6c1d54fc-413a-421c-b97c-5e839c38d42f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
